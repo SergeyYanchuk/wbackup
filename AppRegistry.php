@@ -13,27 +13,42 @@
  */
 class AppRegistry {
     const SCAN_DIR_PARAM = 'scan';
+    const OUTPUT_FILENAME_PREFFIX = 'wallets_backup';
     private $scan_dir, $output_file;
     
-    public function __construct() {
-        init($argv);
+    public function __construct($scan_dir = null) {
+        
+        $options = getopt(self::SCAN_DIR_PARAM);
+        if ($scan_dir !== null)
+            $options[self::SCAN_DIR_PARAM] = $scan_dir;
+            
+        $this->init($options);
     }
     
     private function init($a) {
-        foreach ($a as $value) {
-            $pair = explode($value);
-            if ($pair[0]==SCAN_DIR_PARAM) {
-                if (isset($pair[1]) && (!empty($pair[1])))
-                    $scan_dir = $pair[1];
-                else 
-                    throw new Exception("Empty scan directory param");
-                
-            }
+        if (isset($a[self::SCAN_DIR_PARAM]))
+            $scan_dir =   $a[self::SCAN_DIR_PARAM];
+        else 
+            throw new Exception("Not set scan directory");
+        
+       // $scan_dir = realpath($scan_dir);
+        $scan_dir = rtrim($scan_dir, "/\\");
+        
+        if ($scan_dir == "~") 
+           $scan_dir = $this->getHomeDir();
             
-         }
-         if (!is_dir($scan_dir))
+           
+        if (!is_dir($scan_dir))
              throw new Exception("$scan_dir - is not directory");
-         $this->scan_dir = $scan_dir;
+        $this->scan_dir = $scan_dir;
+        $this->output_file = $this->generateOutputFilename($scan_dir);
+    }
+    
+    private function getHomeDir() {
+         if (isset($_SERVER['HOMEDRIVE'])) 
+            return $_SERVER['HOMEDRIVE'].$_SERVER['HOMEPATH'];
+        else 
+            return $_SERVER['HOME'];    
     }
     
     private function generateOutputFilename($path)
@@ -41,13 +56,23 @@ class AppRegistry {
         if (!is_dir($path))
              throw new Exception("$path - is not directory");
         
-        $filename = 
+        date_default_timezone_set("UTC");
+        $date = new DateTime("now");
         
-        if (!file_exists($path))
-        {
-            
-        } else {
-            throw new Exception("output file");
-        }
+        $filename = $path . DIRECTORY_SEPARATOR . self::OUTPUT_FILENAME_PREFFIX .
+                "_" . $date->format('Y_m_d_H_i_sP');
+               
+        if (file_exists($filename))
+            throw new Exception("Output file already exists");      
+        
+        return $filename;
+    }
+    
+    public function getScanDir() {
+        return $this->scan_dir;
+    }
+    
+    public function getOutputFilename() {
+        return $this->output_file;
     }
 }
