@@ -1,26 +1,47 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @package AppRegistry
+ * @author serj0987
+ * @copyright (c) 2014, Serj0987
  */
 
 require_once 'Exceptions.php';
 require_once 'ErrorBox.php';
 
 /**
- * Description of AppRegistry
- *
- * @author serj0987
+ * This class receives, processes and stores the command line arguments
  */
 class AppRegistry {
     const SCAN_DIR_PARAM = 'scan';
     const FORMAT_PARAM = 'format';
     const OUTPUT_FILENAME_PREFFIX = 'wallets_backup';
-    private $supported_formats = array('gz'=>'tar.gz');
-    private $scan_dir, $output_file, $format = 'gz';
+    /**
+     * Associative array format parameter value => output file extension
+     * @var array of string 
+     */
+    private $supported_formats = array('zip'=>'.zip');
+    /**
+     * Store path to direcrory for scanning 
+     * @var string
+     */
+    private $scan_dir;
+    /**
+     * Store output filename
+     * @var string 
+     */
+    private $output_file;
+    /**
+     * Store format output file, default = 'zip'
+     * @var type string
+     */
+    private $format = 'zip';
     
+    /**
+     * If parameter not set using command line arguments
+     * @param string $scan_dir
+     * @param string $format
+     * @return void
+     */
     public function __construct($scan_dir = null, $format = null) {
         
         $options = getopt(self::SCAN_DIR_PARAM.":".self::FORMAT_PARAM);
@@ -33,6 +54,11 @@ class AppRegistry {
         $this->init($options);
     }
     
+    /**
+     * Processes array of option. Validate options and write values to fields
+     * @param array of string
+     * @return void
+     */
     private function init($a) {
         if (isset($a[self::SCAN_DIR_PARAM]))
             $scan_dir =   $a[self::SCAN_DIR_PARAM];
@@ -57,6 +83,10 @@ class AppRegistry {
         $this->output_file = $this->generateOutputFilename($scan_dir);
     }
     
+    /**
+     * Return this user home directory
+     * @return string
+     */
     private function getHomeDir() {
          if (isset($_SERVER['HOMEDRIVE'])) 
             return $_SERVER['HOMEDRIVE'].$_SERVER['HOMEPATH'];
@@ -64,6 +94,12 @@ class AppRegistry {
             return $_SERVER['HOME'];    
     }
     
+    /**
+     * Generate full filename for output file. Used path to output dir, called 
+     * AppRegistry::getExtension(); 
+     * @param string $path
+     * @return string
+     */
     private function generateOutputFilename($path)
     {
         if (!is_dir($path))
@@ -81,11 +117,20 @@ class AppRegistry {
         return $filename;
     }
     
+    /**
+     * Return extension for output file
+     * @return string 
+     */
     private function getExtension() {
     
         return $this->supported_formats[$this->format];
     }
     
+    /**
+     * Return valid format or generate exception
+     * @param string $format
+     * @return string
+     */
     private function validateFormat($format) {
         if (array_key_exists($format, $this->supported_formats)) {
             return $format;
@@ -93,15 +138,29 @@ class AppRegistry {
         else 
             ErrorBox::getInstance()->getException(6); 
     }
+    
+    /**
+     * Return directory for scanning
+     * @return string
+     */
 
     public function getScanDir() {
         return $this->scan_dir;
     }
     
+    
+    /**
+     * Return output filename
+     * @return string
+     */
     public function getOutputFilename() {
         return $this->output_file;
     }
     
+    /**
+     * Return format output file
+     * @return string
+     */
      public function getFormat() {
         return $this->output_file;
     }

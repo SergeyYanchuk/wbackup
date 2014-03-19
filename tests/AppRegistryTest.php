@@ -23,20 +23,20 @@ class AppRegistryTest extends PHPUnit_Framework_TestCase {
     
     function testInitHomePath()
     {
-        $this->object = new AppRegistry('~/','gz');
+        $this->object = new AppRegistry('~/','zip');
         $this->assertEquals(rtrim(self::HOME_PATH,"/\\"), $this->object->getScanDir());
     }
     
         function testInitHomePath2()
     {
-        $this->object = new AppRegistry('~/src','gz');
+        $this->object = new AppRegistry('~/src','zip');
         $this->assertEquals('/home/serj0987/src', $this->object->getScanDir());
     }
     
     function testInitEmpthyPath()
     {
         try {
-            $this->object = new AppRegistry('','gz');
+            $this->object = new AppRegistry('','zip');
         } catch (AppRegistryException $exc) {
             return;
         }
@@ -47,7 +47,7 @@ class AppRegistryTest extends PHPUnit_Framework_TestCase {
     function testInitWrongPath()
     {
         try {
-            $this->object = new AppRegistry('~/trulala/', 'gz');
+            $this->object = new AppRegistry('~/trulala/', 'zip');
         } catch (AppRegistryException $exc) {
             if ($exc->getCode() == 3 || $exc->getCode() == 4) 
                 return;
@@ -69,44 +69,44 @@ class AppRegistryTest extends PHPUnit_Framework_TestCase {
     
     function testGenerateOutputFilename()
     {
-        $this->object = new AppRegistry(self::HOME_PATH, 'gz');
+        $this->object = new AppRegistry(self::HOME_PATH, 'zip');
         $path = $this->object->getOutputFilename();
     }
     
             
     function testInitThisPath()
     {
-        $this->object = new AppRegistry("./",'gz');
+        $this->object = new AppRegistry("./",'zip');
         $this->assertEquals(rtrim(__DIR__,"/\\"), $this->object->getScanDir());
     }
     
         function testInitThisPath2()
     {
-        $this->object = new AppRegistry("./t",'gz');
+        $this->object = new AppRegistry("./t",'zip');
         $this->assertEquals(__DIR__.DIRECTORY_SEPARATOR."t", $this->object->getScanDir());
     }
     
     function testInitThisPath3()
     {
-        $this->object = new AppRegistry("../tests",'gz');
+        $this->object = new AppRegistry("../tests",'zip');
         $this->assertEquals(rtrim(__DIR__,"/\\"), $this->object->getScanDir());
     }
     
         function testInitOutputFilename()
     {
-        $this->object = new AppRegistry("../tests",'gz');
+        $this->object = new AppRegistry("../tests",'zip');
         $this->validatePath($this->object->getOutputFilename());
     }
     
             function testInitOutputFilename2()
     {
-        $this->object = new AppRegistry("~/",'gz');
+        $this->object = new AppRegistry("~/",'zip');
         $this->validatePath($this->object->getOutputFilename());
     }
     
             function testInitOutputFilename3()
     {
-        $this->object = new AppRegistry("./t",'gz');
+        $this->object = new AppRegistry("./t",'zip');
         $this->validatePath($this->object->getOutputFilename());
     }
     

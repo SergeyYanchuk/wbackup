@@ -1,19 +1,24 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @package ErrorBox
+ * @author serj0987
+ * @copyright (c) 2014, Serj0987
  */
 
 /**
- * Description of ErrorBox
- *
+ * Class for error processing and generating exceptions. Singleton
  * @author serj0987
  */
 class ErrorBox {
     
+    /**
+     * @var ErrorBox
+     */
     static private $inst;
+    /**
+     * Associative array [errorcode][message] or [exception_class]
+     * @var array of strings
+     */
     static private $errors = array(
         0 => array(
             'message' => 'Unknown error', 
@@ -39,17 +44,31 @@ class ErrorBox {
         
         );
     
+    /**
+     * Private constructor for singleton realization
+     * @return void
+     */
     private function __construct() {
         ;
     }
     
+    /**
+     * Static function return this instance
+     * @return ErrorBox
+     */
     static public function getInstance() {
         if (empty(self::$inst))
             self::$inst = new ErrorBox();
         return self::$inst;
             
     }
-
+    
+    
+    /**
+     * 
+     * @param int $code
+     * @throws type from self::$errors
+     */
     public function getException($code) {
         
         if (!isset(self::$errors[$code])) 
@@ -61,12 +80,5 @@ class ErrorBox {
             throw new $exception($message,$code);
         
     }
-
-
-    
-    
-    
-
-
 }
 
