@@ -1,3 +1,4 @@
+#! /usr/bin/php
 <?php
 /* 
  * To change this template, choose Tools | Templates

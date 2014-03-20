@@ -6,7 +6,7 @@ require_once '../AppRegistry.php';
 
 class AppRegistryTest extends PHPUnit_Framework_TestCase {
     
-    const HOME_PATH = "/home/serj0987/";
+    const HOME_PATH = "/home/serj0987";
 
     /**
      * @var AppRegistry
@@ -129,8 +129,21 @@ class AppRegistryTest extends PHPUnit_Framework_TestCase {
             $this->fail("Bad filename");
     }
     
+    function testGetHomeDir() {
+        $this->class = new ReflectionClass('AppRegistry');
+        $this->object = new AppRegistry("~/",'zip');
+        
+        $method = $this->class->getMethod('getHomeDir');
+        $method->setAccessible(true);
+        
+        $result = $method->invoke($this->object);
+        
+        $this->assertEquals($result, AppRegistryTest::HOME_PATH);
+        
+    }
 
 
+    
     
     protected function tearDown() {
         
