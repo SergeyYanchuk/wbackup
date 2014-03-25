@@ -41,7 +41,21 @@ class ErrorBox {
         6 => array(
             'message' => 'Unknown output format', 
             'exception_class' => 'AppRegistryException'),
-        
+        7 => array(
+            'message' => 'Extension for this fornmat not installed', 
+            'exception_class' => 'ArchiverException'),
+        8 => array(
+            'message' => 'Can\'t open archive', 
+            'exception_class' => 'ArchiverException'),
+        9 => array(
+            'message' => 'Error addeding file in archive', 
+            'exception_class' => 'ArchiverException'),
+        10 => array(
+            'message' => 'Can\'t close archive', 
+            'exception_class' => 'ArchiverException'),
+        11 => array(
+            'message' => 'Not inialized archive object', 
+            'exception_class' => 'ArchiverException'),
         );
     
     /**
