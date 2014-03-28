@@ -81,15 +81,18 @@ class ErrorBox {
     /**
      * 
      * @param int $code
+     * @param string $aMess addition message about error
      * @throws type from self::$errors
      */
-    public function getException($code) {
+    public function getException($code, $aMess = NULL) {
         
         if (!isset(self::$errors[$code])) 
             $code = 1;
 
             $exception = self::$errors[$code]['exception_class'];
             $message = self::$errors[$code]['message'];
+            if ($aMess !== NULL)
+                $message .= ' ' . $aMess;
                     
             throw new $exception($message,$code);
         

@@ -1,6 +1,6 @@
 <?php
 
-require_once 'BaseArchiver.php';
+require_once 'GzArchiver.php';
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -13,18 +13,13 @@ require_once 'BaseArchiver.php';
  *
  * @author serj0987
  */
-class GzArchiver extends BaseArchiver {
+class BzArchiver extends GzArchiver {
     
-
-    protected function getCompressClassName() {
-        return 'PharData';
-    }
-
     public function doOpen($filename) {
             if (file_exists($filename))
                 unlink ($filename);
-            if (file_exists($filename.'.gz'))
-                unlink ($filename.'.gz');
+            if (file_exists($filename.'.bz'))
+                unlink ($filename.'.bz');
             
             $classname = $this->getCompressClassName();                   
             $this->arc = new $classname($filename);
@@ -32,14 +27,9 @@ class GzArchiver extends BaseArchiver {
             return TRUE;
 
     }
-    
-    public function doAddFile($realfile, $localpath) {
-            $this->arc->addFile($realfile, $localpath);
-            return TRUE;
-    }
-    
+     
     public function doClose() {
-      $this->arc->compress(Phar::GZ);
+      $this->arc->compress(Phar::BZ2);
       return TRUE;
     }
  

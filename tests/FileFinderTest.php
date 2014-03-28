@@ -7,6 +7,7 @@ require_once '../FileFinder.php';
 require_once '../Exceptions.php';
 require_once '../archiver/ZipArchiver.php';
 require_once '../archiver/GzArchiver.php';
+require_once '../archiver/BzArchiver.php';
 
 class FileFinderTest extends PHPUnit_Framework_TestCase {
 
@@ -16,6 +17,7 @@ class FileFinderTest extends PHPUnit_Framework_TestCase {
     protected $object;
     private $output_zip_file = '/home/serj0987/1.zip';
     private $output_gz_file = '/home/serj0987/1.tar';
+    private $output_bz_file = '/home/serj0987/12.tar';
     private $class;
 
     /**
@@ -55,7 +57,7 @@ class FileFinderTest extends PHPUnit_Framework_TestCase {
             $this->fail('Backup zip file is not exist');
     }
     
-        public function testCreateGzBackup() {
+    public function testCreateGzBackup() {
         $arc = new GzArchiver();
         
         $arc->open($this->output_gz_file);
@@ -68,6 +70,21 @@ class FileFinderTest extends PHPUnit_Framework_TestCase {
 
         if (!file_exists($this->output_gz_file))
             $this->fail('Backup tar.gz file is not exist');
+    }
+    
+    public function testCreateBzBackup() {
+        $arc = new BzArchiver();
+        
+        $arc->open($this->output_bz_file);
+   
+        $this->class = new ReflectionClass('FileFinder');
+        
+        $object = new FileFinder($arc, '/home/serj0987');
+        $arc = $object->createBackup();
+        $result = $arc->close();
+
+        if (!file_exists($this->output_bz_file))
+            $this->fail('Backup tar.bz file is not exist');
     }
     
     
