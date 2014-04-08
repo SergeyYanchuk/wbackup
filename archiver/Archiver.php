@@ -1,14 +1,12 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @package Archiver
+ * @author serj0987
+ * @copyright (c) 2014, Serj0987
  */
 
 /**
- * Description of Archiver
- *
+ * Describes the public methods of any class of the archiver
  * @author serj0987
  */
 interface Archiver {

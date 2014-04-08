@@ -16,8 +16,8 @@ class FileFinderTest extends PHPUnit_Framework_TestCase {
      */
     protected $object;
     private $output_zip_file = '/home/serj0987/1.zip';
-    private $output_gz_file = '/home/serj0987/1.tar';
-    private $output_bz_file = '/home/serj0987/12.tar';
+    private $output_gz_file = '/home/serj0987/1.tar.gz';
+    private $output_bz_file = '/home/serj0987/12.tar.bz2';
     private $class;
 
     /**
