@@ -56,6 +56,15 @@ class ErrorBox {
         11 => array(
             'message' => 'Not inialized archive object', 
             'exception_class' => 'ArchiverException'),
+        12 => array(
+            'message' => 'So small string of format', 
+            'exception_class' => 'ArchiverFactoryException'),
+        13 => array(
+            'message' => 'Can not include this file', 
+            'exception_class' => 'ArchiverFactoryException'),
+        14 => array(
+            'message' => 'This class not exists', 
+            'exception_class' => 'ArchiverFactoryException'),
         );
     
     /**

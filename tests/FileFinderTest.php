@@ -25,6 +25,7 @@ class FileFinderTest extends PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
+        @mkdir('t');
         $arc = new ZipArchiver();
         
         $arc->open($this->output_zip_file);
@@ -41,6 +42,7 @@ class FileFinderTest extends PHPUnit_Framework_TestCase {
     protected function tearDown() {
         @unlink($this->output_zip_file);
         @unlink($this->output_gz_file);
+        @unlink('t');
         //@unlink($this->output_gz_file.'.gz');
         
     }

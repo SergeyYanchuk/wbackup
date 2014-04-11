@@ -19,7 +19,8 @@ class AppRegistry {
      * Associative array format parameter value => output file extension
      * @var array of string 
      */
-    private $supported_formats = array('zip'=>'.zip');
+    private $supported_formats = array('zip'=>'.zip','gz'=>'.tar.gz', 
+        'bz' => '.tar.bz2');
     /**
      * Store path to direcrory for scanning 
      * @var string
@@ -42,13 +43,18 @@ class AppRegistry {
      * @param string $format
      * @return void
      */
-    public function __construct($scan_dir = null, $format = null) {
+    public function __construct($scan_dir = NULL, $format = NULL) {
         
-        $options = getopt(self::SCAN_DIR_PARAM.":".self::FORMAT_PARAM);
-        if ($scan_dir !== null)
+        $opt_names = array(
+            self::SCAN_DIR_PARAM.":",
+            self::FORMAT_PARAM.":"
+        );
+        $options = getopt(null,$opt_names);
+        //var_dump($options);
+        if ($scan_dir !== NULL)
             $options[self::SCAN_DIR_PARAM] = $scan_dir;
         
-        if ($format !== null)
+        if ($format !== NULL)
             $options[self::FORMAT_PARAM] = $format;
             
         $this->init($options);
@@ -109,7 +115,7 @@ class AppRegistry {
         $date = new DateTime("now");
         
         $filename = $path . DIRECTORY_SEPARATOR . self::OUTPUT_FILENAME_PREFFIX .
-                "_" . $date->format('Y_m_d_H_i_s').'.'.$this->getExtension();
+                "_" . $date->format('Y_m_d_H_i_s').$this->getExtension();
                
         if (file_exists($filename))
             ErrorBox::getInstance ()->getException(5);      
@@ -162,6 +168,6 @@ class AppRegistry {
      * @return string
      */
      public function getFormat() {
-        return $this->output_file;
+        return $this->format;
     }
 }

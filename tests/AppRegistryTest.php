@@ -124,7 +124,7 @@ class AppRegistryTest extends PHPUnit_Framework_TestCase {
                 . '[_]+([0-1]?[0-9]+)+[_]+([0-3]?[0-9]+)+[_]+'
                 . '([0-2]?[0-9]+)+[_]+([0-5]?[0-9]+)+[_]'
                 . '+([0-5]?[0-9]+)+[\.]+([a-zA-Z,0-9,\.]*)+/';
-        echo $filename;
+
         if (preg_match($pattern, $filename)==NULL)
             $this->fail("Bad filename");
     }

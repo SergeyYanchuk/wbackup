@@ -8,3 +8,7 @@ class ArchiverException extends Exception {
     
 }
 
+class ArchiverFactoryException extends Exception {
+    
+}
+
