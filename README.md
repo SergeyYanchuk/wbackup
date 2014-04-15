@@ -1,7 +1,7 @@
 wbackup
 =======
 
-Simple command-line utulity
+Simple command-line utulity for creating backups wallet.dat files
 
 Requiments
 ==========
